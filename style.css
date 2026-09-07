@@ -1,0 +1,1134 @@
+/* ================================
+   EARNHUB — MAIN DESIGN
+================================ */
+
+:root {
+  --bg: #050914;
+  --bg2: #091326;
+  --card: rgba(15, 25, 45, 0.78);
+  --card-hover: rgba(24, 37, 64, 0.9);
+
+  --white: #ffffff;
+  --text: #edf2ff;
+  --muted: #9caac2;
+
+  --purple: #7957ff;
+  --purple-light: #a58cff;
+
+  --cyan: #16d9c0;
+  --blue: #1597ff;
+
+  --border: rgba(255, 255, 255, 0.09);
+
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ================================
+   RESET
+================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      #182b52 0%,
+      #091326 38%,
+      #050914 75%
+    );
+
+  color: var(--text);
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  line-height: 1.6;
+
+  overflow-x: hidden;
+}
+
+
+/* ================================
+   BACKGROUND
+================================ */
+
+.background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.2;
+}
+
+.glow-one {
+  width: 320px;
+  height: 320px;
+
+  background: var(--purple);
+
+  top: 5%;
+  left: -160px;
+}
+
+.glow-two {
+  width: 360px;
+  height: 360px;
+
+  background: var(--cyan);
+
+  top: 45%;
+  right: -180px;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.header {
+  width: min(1120px, calc(100% - 32px));
+
+  margin: auto;
+
+  padding: 22px 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--white);
+
+  text-decoration: none;
+
+  font-size: 21px;
+  font-weight: 850;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--purple),
+      #9e7cff
+    );
+
+  box-shadow:
+    0 10px 30px rgba(121, 87, 255, 0.35);
+}
+
+.purple {
+  color: var(--purple-light);
+}
+
+
+/* ================================
+   TELEGRAM BUTTON
+================================ */
+
+.telegram-button {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 9px 14px;
+
+  border-radius: 12px;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  background:
+    linear-gradient(
+      135deg,
+      #078ee8,
+      var(--cyan)
+    );
+
+  box-shadow:
+    0 10px 25px rgba(22, 217, 192, 0.18);
+
+  transition: 0.25s ease;
+}
+
+.telegram-button:hover {
+  transform: translateY(-2px);
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+main {
+  width: min(1120px, calc(100% - 32px));
+
+  margin: auto;
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+  text-align: center;
+
+  padding:
+    80px 10px
+    100px;
+}
+
+.hero-badge {
+  display: inline-block;
+
+  padding: 8px 14px;
+
+  margin-bottom: 24px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  color: #bdc8dc;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.13em;
+}
+
+.hero h1 {
+  max-width: 900px;
+
+  margin:
+    0 auto
+    22px;
+
+  font-size:
+    clamp(43px, 7vw, 78px);
+
+  line-height: 1.02;
+
+  letter-spacing: -0.055em;
+
+  font-weight: 900;
+}
+
+.hero h1 span {
+  background:
+    linear-gradient(
+      100deg,
+      #a58cff,
+      #7554ff,
+      #19d9c0
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.hero p {
+  max-width: 650px;
+
+  margin: auto;
+
+  color: var(--muted);
+
+  font-size: 17px;
+}
+
+
+/* ================================
+   HERO BUTTONS
+================================ */
+
+.hero-buttons {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 32px;
+
+  flex-wrap: wrap;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+
+  padding:
+    0 20px;
+
+  border-radius: 13px;
+
+  text-decoration: none;
+
+  font-weight: 850;
+
+  transition: 0.25s ease;
+}
+
+.primary-button {
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7957ff,
+      #6844ef
+    );
+
+  box-shadow:
+    0 15px 35px
+    rgba(121, 87, 255, 0.32);
+}
+
+.primary-button:hover {
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 20px 40px
+    rgba(121, 87, 255, 0.42);
+}
+
+.secondary-button {
+  color: var(--text);
+
+  border:
+    1px solid var(--border);
+
+  background:
+    rgba(255, 255, 255, 0.045);
+}
+
+.secondary-button:hover {
+  transform:
+    translateY(-3px);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+/* ================================
+   SECTIONS
+================================ */
+
+.section {
+  margin-bottom: 90px;
+}
+
+.section-heading {
+  margin-bottom: 23px;
+}
+
+.section-heading > span,
+.telegram-section > div > span,
+.information-card > span,
+.disclaimer > span {
+  color: #aab7cc;
+
+  font-size: 11px;
+
+  font-weight: 850;
+
+  letter-spacing: 0.15em;
+}
+
+.section-heading h2,
+.telegram-section h2,
+.information-card h2,
+.disclaimer h2 {
+  margin-top: 5px;
+
+  font-size: 31px;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.035em;
+}
+
+
+/* ================================
+   HOW IT WORKS
+================================ */
+
+.steps {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 14px;
+}
+
+.step-card {
+  padding: 27px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.065),
+      rgba(255,255,255,0.025)
+    );
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: var(--shadow);
+
+  transition: 0.25s ease;
+}
+
+.step-card:hover {
+  transform:
+    translateY(-4px);
+
+  border-color:
+    rgba(165, 140, 255, 0.3);
+}
+
+.step-number {
+  color: var(--purple-light);
+
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+.step-card h3 {
+  margin:
+    14px 0 7px;
+
+  font-size: 18px;
+}
+
+.step-card p {
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+
+/* ================================
+   APP SECTION
+================================ */
+
+.apps-section {
+  margin-bottom: 90px;
+}
+
+.app-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.app-count {
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+
+/* ================================
+   SEARCH
+================================ */
+
+.search-box {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 15px;
+
+  padding:
+    0 15px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 15px;
+
+  background:
+    rgba(255,255,255,0.045);
+
+  backdrop-filter: blur(12px);
+}
+
+.search-box span {
+  color: var(--muted);
+
+  font-size: 24px;
+}
+
+.search-box input {
+  width: 100%;
+
+  padding:
+    15px 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: white;
+
+  font-size: 15px;
+}
+
+.search-box input::placeholder {
+  color: #718099;
+}
+
+
+/* ================================
+   APP LIST
+================================ */
+
+.app-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+/* ================================
+   APP CARD
+================================ */
+
+.app-card {
+  display: grid;
+
+  grid-template-columns:
+    65px
+    1fr
+    auto;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 16px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.025)
+    );
+
+  backdrop-filter: blur(15px);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+
+  box-shadow:
+    0 10px 35px
+    rgba(0,0,0,0.12);
+}
+
+.app-card:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(165, 140, 255, 0.35);
+
+  background:
+    var(--card-hover);
+}
+
+
+/* ================================
+   APP LOGO
+================================ */
+
+.logo {
+  width: 65px;
+  height: 65px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 17px;
+
+  color: white;
+
+  font-size: 25px;
+
+  font-weight: 900;
+
+  background:
+    linear-gradient(
+      135deg,
+      #293b5e,
+      #17243b
+    );
+
+  border:
+    1px solid var(--border);
+}
+
+
+/* ================================
+   APP DETAILS
+================================ */
+
+.app-name {
+  font-size: 18px;
+
+  font-weight: 850;
+
+  color: white;
+}
+
+.details {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 7px;
+}
+
+.tag {
+  display: inline-flex;
+
+  padding:
+    4px 9px;
+
+  border-radius: 999px;
+
+  border:
+    1px solid var(--border);
+
+  background:
+    rgba(255,255,255,0.05);
+
+  color: #b9c5d8;
+
+  font-size: 12px;
+}
+
+
+/* ================================
+   JOIN NOW
+================================ */
+
+.join {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 105px;
+
+  padding:
+    11px 16px;
+
+  border-radius: 12px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7957ff,
+      #6844ed
+    );
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 850;
+
+  box-shadow:
+    0 10px 25px
+    rgba(121,87,255,0.25);
+
+  transition: 0.25s ease;
+}
+
+.join:hover {
+  transform:
+    translateY(-2px)
+    scale(1.02);
+
+  box-shadow:
+    0 14px 30px
+    rgba(121,87,255,0.38);
+}
+
+
+/* ================================
+   TELEGRAM SECTION
+================================ */
+
+.telegram-section {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 25px;
+
+  padding: 30px;
+
+  margin-bottom: 90px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(14,165,233,0.1),
+      rgba(25,211,174,0.055)
+    );
+
+  box-shadow: var(--shadow);
+}
+
+.telegram-section p {
+  margin-top: 8px;
+
+  color: var(--muted);
+}
+
+.telegram-big-button {
+  white-space: nowrap;
+
+  padding:
+    13px 19px;
+
+  border-radius: 13px;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-weight: 850;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0b96eb,
+      #19d3ae
+    );
+
+  box-shadow:
+    0 13px 30px
+    rgba(25,211,174,0.2);
+
+  transition: 0.25s ease;
+}
+
+.telegram-big-button:hover {
+  transform:
+    translateY(-3px);
+}
+
+
+/* ================================
+   INFORMATION
+================================ */
+
+.information-section {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 14px;
+
+  margin-bottom: 90px;
+}
+
+.information-card {
+  padding: 29px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 20px;
+
+  background:
+    rgba(15,25,45,0.75);
+
+  backdrop-filter: blur(16px);
+
+  box-shadow: var(--shadow);
+}
+
+.information-card p {
+  margin-top: 12px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+
+/* ================================
+   FAQ
+================================ */
+
+.faq-section {
+  margin-bottom: 90px;
+}
+
+.faq-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.faq-item {
+  overflow: hidden;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 15px;
+
+  background:
+    rgba(255,255,255,0.035);
+}
+
+.faq-question {
+  width: 100%;
+
+  padding: 18px;
+
+  border: 0;
+
+  outline: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  text-align: left;
+
+  color: white;
+
+  background: transparent;
+
+  font-size: 15px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.faq-plus {
+  flex-shrink: 0;
+
+  color: var(--purple-light);
+
+  font-size: 23px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+.faq-answer {
+  max-height: 0;
+
+  overflow: hidden;
+
+  padding:
+    0 18px;
+
+  color: var(--muted);
+
+  transition:
+    max-height 0.3s ease,
+    padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 180px;
+
+  padding:
+    0 18px 18px;
+}
+
+.faq-item.active .faq-plus {
+  transform:
+    rotate(45deg);
+}
+
+
+/* ================================
+   DISCLAIMER
+================================ */
+
+.disclaimer {
+  padding: 30px;
+
+  margin-bottom: 80px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 20px;
+
+  background:
+    rgba(15,25,45,0.72);
+
+  backdrop-filter: blur(16px);
+
+  box-shadow: var(--shadow);
+}
+
+.disclaimer p {
+  margin-top: 13px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+.disclaimer h3 {
+  margin-top: 22px;
+
+  font-size: 17px;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+  width: min(1120px, calc(100% - 32px));
+
+  margin: auto;
+
+  padding:
+    25px 0 35px;
+
+  border-top:
+    1px solid var(--border);
+
+  display: flex;
+
+  justify-content: space-between;
+
+  color: #718099;
+
+  font-size: 12px;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+
+  .header {
+    width:
+      calc(100% - 24px);
+
+    padding:
+      16px 0;
+  }
+
+  main {
+    width:
+      calc(100% - 24px);
+  }
+
+  .hero {
+    padding:
+      58px 0 70px;
+  }
+
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .information-section {
+    grid-template-columns: 1fr;
+  }
+
+  .app-card {
+    grid-template-columns:
+      54px
+      1fr;
+
+    padding: 14px;
+  }
+
+  .app-card .logo {
+    width: 54px;
+    height: 54px;
+
+    border-radius: 15px;
+
+    font-size: 21px;
+  }
+
+  .app-card .join {
+    grid-column:
+      1 / -1;
+
+    width: 100%;
+  }
+
+  .telegram-section {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 25px;
+  }
+
+  .telegram-big-button {
+    width: 100%;
+
+    text-align: center;
+  }
+
+  .section-heading h2,
+  .telegram-section h2,
+  .information-card h2,
+  .disclaimer h2 {
+    font-size: 26px;
+  }
+
+  footer {
+    width:
+      calc(100% - 24px);
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+}
+
+
+/* ================================
+   SMALL PHONES
+================================ */
+
+@media (max-width: 390px) {
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+
+  .telegram-button {
+    font-size: 11px;
+
+    padding:
+      8px 10px;
+  }
+}
