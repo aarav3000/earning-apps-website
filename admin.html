@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EarnHub Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #9ca3af;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #273244;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: 600;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #0b1220;
+      color: white;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #7c3aed, #06b6d4);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #172033;
+      color: #cbd5e1;
+      display: none;
+    }
+
+    .logout {
+      background: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>EarnHub Admin</h1>
+
+    <p class="subtitle">
+      Manage your earning apps
+    </p>
+
+
+    <!-- LOGIN -->
+
+    <div class="card" id="login-section">
+
+      <h2>Admin Login</h2>
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Admin email"
+      >
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Admin password"
+      >
+
+      <button id="login-btn">
+        Login
+      </button>
+
+      <div class="status" id="login-status"></div>
+
+    </div>
+
+
+    <!-- ADMIN PANEL -->
+
+    <div class="hidden" id="admin-section">
+
+      <div class="card">
+
+        <h2>Add New App</h2>
+
+        <label>App Name</label>
+
+        <input
+          type="text"
+          id="app-name"
+          placeholder="Example: XYZ App"
+        >
+
+
+        <label>Description</label>
+
+        <textarea
+          id="app-description"
+          placeholder="Referral Rewards, Easy Signup"
+        ></textarea>
+
+
+        <label>Logo URL</label>
+
+        <input
+          type="url"
+          id="app-logo"
+          placeholder="https://..."
+        >
+
+
+        <label>Referral URL</label>
+
+        <input
+          type="url"
+          id="app-referral"
+          placeholder="https://..."
+        >
+
+
+        <label>Status</label>
+
+        <select id="app-status">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+
+
+        <label>Featured</label>
+
+        <select id="app-featured">
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+
+
+        <button id="add-app-btn">
+          Add App
+        </button>
+
+        <div class="status" id="app-status-message"></div>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>Admin Account</h2>
+
+        <button class="logout" id="logout-btn">
+          Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Supabase -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://vjwixiaigfhxvlohjgoq.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_-Efo0V_EiJ0kk56OZq_NhQ_1E68yyK1";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    const loginSection =
+      document.getElementById("login-section");
+
+    const adminSection =
+      document.getElementById("admin-section");
+
+
+    const loginStatus =
+      document.getElementById("login-status");
+
+    const appStatusMessage =
+      document.getElementById("app-status-message");
+
+
+    function showStatus(element, message) {
+
+      element.textContent = message;
+      element.style.display = "block";
+
+    }
+
+
+    /*
+       LOGIN
+    */
+
+    document
+      .getElementById("login-btn")
+      .addEventListener("click", async function () {
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        if (!email || !password) {
+
+          showStatus(
+            loginStatus,
+            "Please enter email and password."
+          );
+
+          return;
+        }
+
+
+        const { data, error } =
+          await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+
+        if (error) {
+
+          showStatus(
+            loginStatus,
+            error.message
+          );
+
+          return;
+        }
+
+
+        loginSection.classList.add("hidden");
+
+        adminSection.classList.remove("hidden");
+
+      });
+
+
+    /*
+       ADD APP
+    */
+
+    document
+      .getElementById("add-app-btn")
+      .addEventListener("click", async function () {
+
+        const name =
+          document
+            .getElementById("app-name")
+            .value
+            .trim();
+
+        const description =
+          document
+            .getElementById("app-description")
+            .value
+            .trim();
+
+        const logo_url =
+          document
+            .getElementById("app-logo")
+            .value
+            .trim();
+
+        const referral_url =
+          document
+            .getElementById("app-referral")
+            .value
+            .trim();
+
+        const status =
+          document
+            .getElementById("app-status")
+            .value;
+
+        const featured =
+          document
+            .getElementById("app-featured")
+            .value === "true";
+
+
+        if (!name || !referral_url) {
+
+          showStatus(
+            appStatusMessage,
+            "App Name and Referral URL are required."
+          );
+
+          return;
+        }
+
+
+        const { error } =
+          await supabaseClient
+            .from("apps")
+            .insert({
+              name: name,
+              description: description,
+              logo_url: logo_url,
+              referral_url: referral_url,
+              status: status,
+              featured: featured
+            });
+
+
+        if (error) {
+
+          showStatus(
+            appStatusMessage,
+            error.message
+          );
+
+          return;
+        }
+
+
+        showStatus(
+          appStatusMessage,
+          "App added successfully! ✅"
+        );
+
+
+        document
+          .getElementById("app-name")
+          .value = "";
+
+        document
+          .getElementById("app-description")
+          .value = "";
+
+        document
+          .getElementById("app-logo")
+          .value = "";
+
+        document
+          .getElementById("app-referral")
+          .value = "";
+
+      });
+
+
+    /*
+       LOGOUT
+    */
+
+    document
+      .getElementById("logout-btn")
+      .addEventListener("click", async function () {
+
+        await supabaseClient.auth.signOut();
+
+        adminSection.classList.add("hidden");
+
+        loginSection.classList.remove("hidden");
+
+      });
+
+
+    /*
+       CHECK EXISTING LOGIN
+    */
+
+    async function checkLogin() {
+
+      const { data } =
+        await supabaseClient.auth.getSession();
+
+
+      if (data.session) {
+
+        loginSection.classList.add("hidden");
+
+        adminSection.classList.remove("hidden");
+
+      }
+
+    }
+
+
+    checkLogin();
+
+  </script>
+
+</body>
+</html>
