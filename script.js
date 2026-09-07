@@ -1,79 +1,20 @@
-/* ==========================================
-   EARNHUB — WEBSITE FUNCTIONALITY
-========================================== */
-
-
 /*
    ==========================================
-   APP DATA
+   EARNHUB — WEBSITE FUNCTIONALITY
    ==========================================
-
-   Abhi ye DEMO apps hain.
-
-   Baad me isi data ko ADMIN PANEL + DATABASE
-   se automatically load karenge.
-
-   Har app me:
-   - name
-   - logo
-   - details
-   - referral link
-   - featured
 */
 
-const apps = [
+const SUPABASE_URL =
+  "https://vjwixiaigfhxvlohjgoq.supabase.co";
 
-  {
-    name: "Sample Earning App",
-    logo: "E",
-    details: [
-      "Referral Rewards",
-      "Easy Signup"
-    ],
-    url: "#",
-    featured: true
-  },
-
-  {
-    name: "Sample Rewards App",
-    logo: "R",
-    details: [
-      "Tasks & Rewards",
-      "Offers Available"
-    ],
-    url: "#",
-    featured: true
-  },
-
-  {
-    name: "Sample Finance App",
-    logo: "F",
-    details: [
-      "Rewards",
-      "Terms Apply"
-    ],
-    url: "#",
-    featured: false
-  },
-
-  {
-    name: "Sample Bonus App",
-    logo: "B",
-    details: [
-      "Referral Bonus",
-      "Check Eligibility"
-    ],
-    url: "#",
-    featured: false
-  }
-
-];
+const SUPABASE_KEY =
+  "sb_publishable_-Efo0V_EiJ0kk56OZq_NhQ_1E68yyK1";
 
 
 /*
    ==========================================
    FAQ DATA
-==========================================
+   ==========================================
 */
 
 const faqs = [
@@ -114,7 +55,7 @@ const faqs = [
 /*
    ==========================================
    ELEMENTS
-==========================================
+   ==========================================
 */
 
 const appList =
@@ -132,8 +73,129 @@ const faqList =
 
 /*
    ==========================================
+   DATABASE APP DATA
+   ==========================================
+*/
+
+let apps = [];
+
+
+/*
+   ==========================================
+   LOAD APPS FROM SUPABASE
+   ==========================================
+*/
+
+async function loadApps() {
+
+  try {
+
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/apps?select=*&status=eq.active&order=created_at.desc`,
+      {
+        method: "GET",
+
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        `Database error: ${response.status}`
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    apps = data.map(app => {
+
+      let details = [];
+
+      if (app.description) {
+
+        details =
+          app.description
+            .split(/\n|,/)
+            .map(item => item.trim())
+            .filter(Boolean)
+            .slice(0, 4);
+
+      }
+
+
+      return {
+
+        id: app.id,
+
+        name: app.name || "Unnamed App",
+
+        logo: app.logo_url || "",
+
+        details: details,
+
+        url: app.referral_url || "#",
+
+        featured: app.featured === true
+
+      };
+
+    });
+
+
+    displayApps(apps);
+
+    displayFeaturedApps(apps);
+
+
+    console.log(
+      `EarnHub: ${apps.length} apps loaded from database.`
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Supabase error:",
+      error
+    );
+
+
+    apps = [];
+
+
+    appList.innerHTML = `
+      <div class="step-card">
+        <h3>Apps are temporarily unavailable</h3>
+        <p>
+          Please try again in a moment.
+        </p>
+      </div>
+    `;
+
+
+    if (appCount) {
+      appCount.textContent = "0 Apps";
+    }
+
+  }
+
+}
+
+
+/*
+   ==========================================
    CREATE APP CARD
-==========================================
+   ==========================================
 */
 
 function createAppCard(app) {
@@ -153,8 +215,43 @@ function createAppCard(app) {
 
   logo.className = "logo";
 
-  logo.textContent =
-    app.logo || "A";
+
+  if (app.logo) {
+
+    const image =
+      document.createElement("img");
+
+    image.src =
+      app.logo;
+
+    image.alt =
+      `${app.name} Logo`;
+
+    image.loading =
+      "lazy";
+
+    image.onerror =
+      function () {
+
+        image.remove();
+
+        logo.textContent =
+          (app.name || "A")
+            .charAt(0)
+            .toUpperCase();
+
+      };
+
+    logo.appendChild(image);
+
+  } else {
+
+    logo.textContent =
+      (app.name || "A")
+        .charAt(0)
+        .toUpperCase();
+
+  }
 
 
   /*
@@ -168,7 +265,8 @@ function createAppCard(app) {
   const name =
     document.createElement("div");
 
-  name.className = "app-name";
+  name.className =
+    "app-name";
 
   name.textContent =
     app.name;
@@ -181,7 +279,8 @@ function createAppCard(app) {
   const details =
     document.createElement("div");
 
-  details.className = "details";
+  details.className =
+    "details";
 
 
   if (
@@ -194,7 +293,8 @@ function createAppCard(app) {
       const tag =
         document.createElement("span");
 
-      tag.className = "tag";
+      tag.className =
+        "tag";
 
       tag.textContent =
         detail;
@@ -218,7 +318,8 @@ function createAppCard(app) {
   const join =
     document.createElement("a");
 
-  join.className = "join";
+  join.className =
+    "join";
 
   join.textContent =
     "Join Now ↗";
@@ -245,31 +346,31 @@ function createAppCard(app) {
 
 
   return card;
+
 }
 
 
 /*
    ==========================================
-   DISPLAY APPS
-==========================================
+   DISPLAY ALL APPS
+   ==========================================
 */
 
 function displayApps(list) {
 
+  if (!appList) return;
+
+
   appList.innerHTML = "";
 
 
-  /*
-     Update app count
-  */
+  if (appCount) {
 
-  appCount.textContent =
-    `${list.length} App${list.length === 1 ? "" : "s"}`;
+    appCount.textContent =
+      `${list.length} App${list.length === 1 ? "" : "s"}`;
 
+  }
 
-  /*
-     No result
-  */
 
   if (list.length === 0) {
 
@@ -289,12 +390,9 @@ function displayApps(list) {
     appList.appendChild(empty);
 
     return;
+
   }
 
-
-  /*
-     Add cards
-  */
 
   list.forEach(app => {
 
@@ -310,68 +408,102 @@ function displayApps(list) {
 
 /*
    ==========================================
-   INITIAL APP LOAD
-==========================================
+   FEATURED APPS
+   ==========================================
 */
 
-displayApps(apps);
+function displayFeaturedApps(list) {
+
+  const featuredContainer =
+    document.getElementById("featured-apps");
+
+  if (!featuredContainer) return;
+
+
+  featuredContainer.innerHTML = "";
+
+
+  const featuredApps =
+    list.filter(app => app.featured);
+
+
+  featuredApps.forEach(app => {
+
+    const card =
+      createAppCard(app);
+
+    featuredContainer.appendChild(card);
+
+  });
+
+}
 
 
 /*
    ==========================================
    SEARCH
-==========================================
+   ==========================================
 */
 
-searchInput.addEventListener(
-  "input",
-  function () {
+if (searchInput) {
 
-    const query =
-      this.value
-        .trim()
-        .toLowerCase();
+  searchInput.addEventListener(
+    "input",
+    function () {
 
-
-    const filteredApps =
-      apps.filter(app => {
-
-        const appName =
-          app.name.toLowerCase();
+      const query =
+        this.value
+          .trim()
+          .toLowerCase();
 
 
-        const details =
-          Array.isArray(app.details)
-            ? app.details.join(" ").toLowerCase()
-            : "";
+      const filteredApps =
+        apps.filter(app => {
+
+          const appName =
+            app.name
+              .toLowerCase();
 
 
-        return (
-          appName.includes(query) ||
-          details.includes(query)
-        );
+          const details =
+            Array.isArray(app.details)
+              ? app.details
+                  .join(" ")
+                  .toLowerCase()
+              : "";
 
-      });
+
+          return (
+            appName.includes(query) ||
+            details.includes(query)
+          );
+
+        });
 
 
-    displayApps(filteredApps);
+      displayApps(filteredApps);
 
-  }
-);
+    }
+  );
+
+}
 
 
 /*
    ==========================================
    FAQ
-==========================================
+   ==========================================
 */
 
 function createFAQ() {
 
+  if (!faqList) return;
+
+
   faqList.innerHTML = "";
 
 
-  faqs.forEach((faq, index) => {
+  faqs.forEach(faq => {
 
     const item =
       document.createElement("div");
@@ -379,10 +511,6 @@ function createFAQ() {
     item.className =
       "faq-item";
 
-
-    /*
-       Question button
-    */
 
     const question =
       document.createElement("button");
@@ -400,10 +528,6 @@ function createFAQ() {
     `;
 
 
-    /*
-       Answer
-    */
-
     const answer =
       document.createElement("div");
 
@@ -414,18 +538,9 @@ function createFAQ() {
       faq.answer;
 
 
-    /*
-       Click event
-    */
-
     question.addEventListener(
       "click",
       function () {
-
-        /*
-           Close other FAQ items
-           so only one stays open.
-        */
 
         document
           .querySelectorAll(".faq-item")
@@ -441,10 +556,6 @@ function createFAQ() {
 
           });
 
-
-        /*
-           Toggle current item
-        */
 
         item.classList.toggle(
           "active"
@@ -467,17 +578,8 @@ function createFAQ() {
 
 /*
    ==========================================
-   INITIAL FAQ LOAD
-==========================================
-*/
-
-createFAQ();
-
-
-/*
-   ==========================================
    SMOOTH ANCHOR LINKS
-==========================================
+   ==========================================
 */
 
 document
@@ -525,45 +627,19 @@ document
 
 /*
    ==========================================
-   BUTTON CLICK FEEDBACK
-==========================================
+   PAGE START
+   ==========================================
 */
 
-document.addEventListener(
-  "click",
-  function (event) {
+createFAQ();
 
-    const button =
-      event.target.closest(".join");
-
-
-    if (!button) return;
-
-
-    /*
-       Demo links currently use "#".
-       Real referral links will come
-       from the admin panel later.
-    */
-
-    if (button.getAttribute("href") === "#") {
-
-      event.preventDefault();
-
-      alert(
-        "This is a demo app. The real referral link will be added from the admin panel."
-      );
-
-    }
-
-  }
-);
+loadApps();
 
 
 /*
    ==========================================
    PAGE READY
-==========================================
+   ==========================================
 */
 
 document.addEventListener(
