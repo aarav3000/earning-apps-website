@@ -1171,3 +1171,40 @@ footer {
   object-fit: cover;
   border-radius: 18px;
 }
+
+/* FINAL EARNHUB HEADER LOGO */
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header .logo-icon {
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px !important;
+  min-height: 58px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  overflow: hidden;
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .logo-icon img {
+  width: 100% !important;
+  height: 100% !important;
+
+  max-width: none !important;
+  max-height: none !important;
+
+  object-fit: cover;
+  display: block;
+  border-radius: 14px;
+}
