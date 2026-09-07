@@ -1320,5 +1320,76 @@
 
     async function checkLogin() {
 
-      const {
-        d
+  const {
+    data
+  } = await supabaseClient
+    .auth
+    .getSession();
+
+  if (data.session) {
+
+    loginSection
+      .classList
+      .add("hidden");
+
+    adminSection
+      .classList
+      .remove("hidden");
+
+    loadApps();
+
+  }
+
+}
+
+
+/*
+   ==========================================
+   START
+   ==========================================
+*/
+
+checkLogin();
+
+
+/*
+   ==========================================
+   AUTH STATE
+   ==========================================
+*/
+
+supabaseClient
+  .auth
+  .onAuthStateChange(
+    function (event, session) {
+
+      if (session) {
+
+        loginSection
+          .classList
+          .add("hidden");
+
+        adminSection
+          .classList
+          .remove("hidden");
+
+      } else {
+
+        loginSection
+          .classList
+          .remove("hidden");
+
+        adminSection
+          .classList
+          .add("hidden");
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+
+</html>
