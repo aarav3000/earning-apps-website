@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>EarnHub Admin</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -14,38 +21,42 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #0b0f19;
-      color: #fff;
+      background: #080c15;
+      color: #ffffff;
       padding: 20px;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 650px;
       margin: auto;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 8px;
+      margin: 10px 0 5px;
     }
 
     .subtitle {
       text-align: center;
       color: #9ca3af;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .card {
       background: #111827;
-      border: 1px solid #273244;
+      border: 1px solid #263247;
       border-radius: 18px;
       padding: 20px;
       margin-bottom: 20px;
     }
 
+    h2 {
+      margin-top: 0;
+    }
+
     label {
       display: block;
-      margin: 15px 0 7px;
+      margin: 16px 0 7px;
       font-weight: 600;
     }
 
@@ -54,11 +65,12 @@
     select {
       width: 100%;
       padding: 13px;
-      border-radius: 10px;
+      border-radius: 11px;
       border: 1px solid #374151;
       background: #0b1220;
       color: white;
       outline: none;
+      font-size: 15px;
     }
 
     textarea {
@@ -66,41 +78,131 @@
       resize: vertical;
     }
 
+    input[type="file"] {
+      padding: 10px;
+    }
+
     button {
       width: 100%;
       border: none;
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 14px;
       margin-top: 18px;
-      background: linear-gradient(135deg, #7c3aed, #06b6d4);
+      background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #06b6d4
+      );
       color: white;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    .logout {
+      background: #dc2626;
     }
 
     .hidden {
       display: none;
     }
 
-    .status {
-      margin-top: 15px;
+    .message {
+      display: none;
+      margin-top: 14px;
       padding: 12px;
       border-radius: 10px;
       background: #172033;
-      color: #cbd5e1;
+      color: #dbeafe;
+    }
+
+    .app-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #263247;
+    }
+
+    .app-item:last-child {
+      border-bottom: none;
+    }
+
+    .app-logo {
+      width: 55px;
+      height: 55px;
+      min-width: 55px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #1f2937;
+    }
+
+    .app-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-name {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+
+    .app-meta {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .app-actions {
+      display: flex;
+      gap: 7px;
+      flex-direction: column;
+      min-width: 70px;
+    }
+
+    .small-btn {
+      margin: 0;
+      padding: 8px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+
+    .edit-btn {
+      background: #2563eb;
+    }
+
+    .delete-btn {
+      background: #dc2626;
+    }
+
+    .cancel-btn {
+      background: #374151;
+    }
+
+    .preview {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-top: 10px;
       display: none;
     }
 
-    .logout {
-      background: #dc2626;
+    .empty {
+      text-align: center;
+      color: #9ca3af;
+      padding: 20px 0;
     }
+
   </style>
+
 </head>
+
 
 <body>
 
@@ -115,7 +217,10 @@
 
     <!-- LOGIN -->
 
-    <div class="card" id="login-section">
+    <div
+      class="card"
+      id="login-section"
+    >
 
       <h2>Admin Login</h2>
 
@@ -139,18 +244,36 @@
         Login
       </button>
 
-      <div class="status" id="login-status"></div>
+      <div
+        class="message"
+        id="login-message"
+      ></div>
 
     </div>
 
 
     <!-- ADMIN PANEL -->
 
-    <div class="hidden" id="admin-section">
+    <div
+      id="admin-section"
+      class="hidden"
+    >
+
+
+      <!-- ADD / EDIT APP -->
 
       <div class="card">
 
-        <h2>Add New App</h2>
+        <h2 id="form-title">
+          Add New App
+        </h2>
+
+
+        <input
+          type="hidden"
+          id="edit-id"
+        >
+
 
         <label>App Name</label>
 
@@ -169,12 +292,18 @@
         ></textarea>
 
 
-        <label>Logo URL</label>
+        <label>App Logo</label>
 
         <input
-          type="url"
+          type="file"
           id="app-logo"
-          placeholder="https://..."
+          accept="image/png,image/jpeg,image/webp"
+        >
+
+        <img
+          id="logo-preview"
+          class="preview"
+          alt="Logo preview"
         >
 
 
@@ -190,33 +319,81 @@
         <label>Status</label>
 
         <select id="app-status">
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
+
+          <option value="active">
+            Active
+          </option>
+
+          <option value="inactive">
+            Inactive
+          </option>
+
         </select>
 
 
         <label>Featured</label>
 
         <select id="app-featured">
-          <option value="false">No</option>
-          <option value="true">Yes</option>
+
+          <option value="false">
+            No
+          </option>
+
+          <option value="true">
+            Yes
+          </option>
+
         </select>
 
 
-        <button id="add-app-btn">
+        <button id="save-app-btn">
           Add App
         </button>
 
-        <div class="status" id="app-status-message"></div>
+
+        <button
+          id="cancel-edit-btn"
+          class="cancel-btn hidden"
+        >
+          Cancel Edit
+        </button>
+
+
+        <div
+          class="message"
+          id="app-message"
+        ></div>
 
       </div>
 
 
+      <!-- APP LIST -->
+
       <div class="card">
 
-        <h2>Admin Account</h2>
+        <h2>
+          All Apps
+        </h2>
 
-        <button class="logout" id="logout-btn">
+        <div id="apps-container">
+
+          <div class="empty">
+            Loading apps...
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- LOGOUT -->
+
+      <div class="card">
+
+        <button
+          id="logout-btn"
+          class="logout"
+        >
           Logout
         </button>
 
@@ -227,7 +404,7 @@
   </div>
 
 
-  <!-- Supabase -->
+  <!-- SUPABASE -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -249,23 +426,77 @@
 
 
     const loginSection =
-      document.getElementById("login-section");
+      document.getElementById(
+        "login-section"
+      );
 
     const adminSection =
-      document.getElementById("admin-section");
+      document.getElementById(
+        "admin-section"
+      );
 
 
-    const loginStatus =
-      document.getElementById("login-status");
+    const loginMessage =
+      document.getElementById(
+        "login-message"
+      );
 
-    const appStatusMessage =
-      document.getElementById("app-status-message");
+    const appMessage =
+      document.getElementById(
+        "app-message"
+      );
 
 
-    function showStatus(element, message) {
+    const appsContainer =
+      document.getElementById(
+        "apps-container"
+      );
 
-      element.textContent = message;
-      element.style.display = "block";
+
+    const saveButton =
+      document.getElementById(
+        "save-app-btn"
+      );
+
+
+    const logoInput =
+      document.getElementById(
+        "app-logo"
+      );
+
+
+    const logoPreview =
+      document.getElementById(
+        "logo-preview"
+      );
+
+
+    /*
+       SHOW MESSAGE
+    */
+
+    function showMessage(
+      element,
+      message
+    ) {
+
+      element.textContent =
+        message;
+
+      element.style.display =
+        "block";
+
+    }
+
+
+    /*
+       HIDE MESSAGE
+    */
+
+    function hideMessage(element) {
+
+      element.style.display =
+        "none";
 
     }
 
@@ -276,63 +507,316 @@
 
     document
       .getElementById("login-btn")
-      .addEventListener("click", async function () {
+      .addEventListener(
+        "click",
+        async function () {
 
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
+          hideMessage(loginMessage);
 
-        const password =
-          document
-            .getElementById("password")
-            .value;
+          const email =
+            document
+              .getElementById("email")
+              .value
+              .trim();
+
+          const password =
+            document
+              .getElementById("password")
+              .value;
 
 
-        if (!email || !password) {
+          if (!email || !password) {
 
-          showStatus(
-            loginStatus,
-            "Please enter email and password."
-          );
+            showMessage(
+              loginMessage,
+              "Please enter email and password."
+            );
 
-          return;
+            return;
+
+          }
+
+
+          const {
+            error
+          } =
+            await supabaseClient
+              .auth
+              .signInWithPassword({
+
+                email: email,
+
+                password: password
+
+              });
+
+
+          if (error) {
+
+            showMessage(
+              loginMessage,
+              error.message
+            );
+
+            return;
+
+          }
+
+
+          loginSection
+            .classList
+            .add("hidden");
+
+          adminSection
+            .classList
+            .remove("hidden");
+
+
+          loadApps();
+
         }
-
-
-        const { data, error } =
-          await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
-
-
-        if (error) {
-
-          showStatus(
-            loginStatus,
-            error.message
-          );
-
-          return;
-        }
-
-
-        loginSection.classList.add("hidden");
-
-        adminSection.classList.remove("hidden");
-
-      });
+      );
 
 
     /*
-       ADD APP
+       LOAD APPS
     */
 
-    document
-      .getElementById("add-app-btn")
-      .addEventListener("click", async function () {
+    async function loadApps() {
+
+      appsContainer.innerHTML =
+        `
+        <div class="empty">
+          Loading apps...
+        </div>
+        `;
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("apps")
+          .select("*")
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (error) {
+
+        appsContainer.innerHTML =
+          `
+          <div class="empty">
+            ${error.message}
+          </div>
+          `;
+
+        return;
+
+      }
+
+
+      if (!data || data.length === 0) {
+
+        appsContainer.innerHTML =
+          `
+          <div class="empty">
+            No apps added yet.
+          </div>
+          `;
+
+        return;
+
+      }
+
+
+      appsContainer.innerHTML =
+        "";
+
+
+      data.forEach(app => {
+
+        const item =
+          document.createElement("div");
+
+        item.className =
+          "app-item";
+
+
+        const logo =
+          document.createElement("img");
+
+        logo.className =
+          "app-logo";
+
+        logo.src =
+          app.logo_url || "";
+
+        logo.alt =
+          app.name || "App";
+
+        logo.onerror =
+          function () {
+
+            this.style.visibility =
+              "hidden";
+
+          };
+
+
+        const info =
+          document.createElement("div");
+
+        info.className =
+          "app-info";
+
+
+        const name =
+          document.createElement("div");
+
+        name.className =
+          "app-name";
+
+        name.textContent =
+          app.name;
+
+
+        const meta =
+          document.createElement("div");
+
+        meta.className =
+          "app-meta";
+
+        meta.textContent =
+          `${app.status || "inactive"} • ${
+            app.featured
+              ? "Featured"
+              : "Not Featured"
+          }`;
+
+
+        info.appendChild(name);
+
+        info.appendChild(meta);
+
+
+        const actions =
+          document.createElement("div");
+
+        actions.className =
+          "app-actions";
+
+
+        const edit =
+          document.createElement("button");
+
+        edit.className =
+          "small-btn edit-btn";
+
+        edit.textContent =
+          "Edit";
+
+        edit.onclick =
+          function () {
+
+            editApp(app);
+
+          };
+
+
+        const remove =
+          document.createElement("button");
+
+        remove.className =
+          "small-btn delete-btn";
+
+        remove.textContent =
+          "Delete";
+
+        remove.onclick =
+          function () {
+
+            deleteApp(app.id);
+
+          };
+
+
+        actions.appendChild(edit);
+
+        actions.appendChild(remove);
+
+
+        item.appendChild(logo);
+
+        item.appendChild(info);
+
+        item.appendChild(actions);
+
+
+        appsContainer.appendChild(item);
+
+      });
+
+    }
+
+
+    /*
+       LOGO PREVIEW
+    */
+
+    logoInput.addEventListener(
+      "change",
+      function () {
+
+        const file =
+          this.files[0];
+
+
+        if (!file) {
+
+          logoPreview.style.display =
+            "none";
+
+          return;
+
+        }
+
+
+        const url =
+          URL.createObjectURL(file);
+
+
+        logoPreview.src =
+          url;
+
+        logoPreview.style.display =
+          "block";
+
+      }
+    );
+
+
+    /*
+       SAVE APP
+    */
+
+    saveButton.addEventListener(
+      "click",
+      async function () {
+
+        hideMessage(appMessage);
+
+
+        const editId =
+          document
+            .getElementById("edit-id")
+            .value;
+
 
         const name =
           document
@@ -340,28 +824,26 @@
             .value
             .trim();
 
+
         const description =
           document
             .getElementById("app-description")
             .value
             .trim();
 
-        const logo_url =
-          document
-            .getElementById("app-logo")
-            .value
-            .trim();
 
-        const referral_url =
+        const referralUrl =
           document
             .getElementById("app-referral")
             .value
             .trim();
 
+
         const status =
           document
             .getElementById("app-status")
             .value;
+
 
         const featured =
           document
@@ -369,64 +851,439 @@
             .value === "true";
 
 
-        if (!name || !referral_url) {
+        const logoFile =
+          logoInput.files[0];
 
-          showStatus(
-            appStatusMessage,
+
+        if (!name || !referralUrl) {
+
+          showMessage(
+            appMessage,
             "App Name and Referral URL are required."
           );
 
           return;
+
         }
 
 
-        const { error } =
-          await supabaseClient
-            .from("apps")
-            .insert({
-              name: name,
-              description: description,
-              logo_url: logo_url,
-              referral_url: referral_url,
-              status: status,
-              featured: featured
-            });
+        saveButton.disabled =
+          true;
+
+        saveButton.textContent =
+          "Saving...";
 
 
-        if (error) {
+        try {
 
-          showStatus(
-            appStatusMessage,
+          let logoUrl = "";
+
+
+          /*
+             EDIT MODE
+          */
+
+          if (editId) {
+
+            const {
+              data: oldApp,
+              error: oldError
+            } =
+              await supabaseClient
+                .from("apps")
+                .select("logo_url")
+                .eq("id", editId)
+                .single();
+
+
+            if (oldError) {
+              throw oldError;
+            }
+
+
+            logoUrl =
+              oldApp.logo_url || "";
+
+          }
+
+
+          /*
+             UPLOAD NEW LOGO
+          */
+
+          if (logoFile) {
+
+            const extension =
+              logoFile.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+
+            const fileName =
+              `${Date.now()}-${Math.random()
+                .toString(36)
+                .substring(2)}.${extension}`;
+
+
+            const {
+              error: uploadError
+            } =
+              await supabaseClient
+                .storage
+                .from("app-logos")
+                .upload(
+                  fileName,
+                  logoFile,
+                  {
+                    cacheControl:
+                      "3600",
+
+                    upsert:
+                      false
+                  }
+                );
+
+
+            if (uploadError) {
+              throw uploadError;
+            }
+
+
+            const {
+              data: publicData
+            } =
+              supabaseClient
+                .storage
+                .from("app-logos")
+                .getPublicUrl(
+                  fileName
+                );
+
+
+            logoUrl =
+              publicData.publicUrl;
+
+          }
+
+
+          /*
+             UPDATE
+          */
+
+          if (editId) {
+
+            const {
+              error
+            } =
+              await supabaseClient
+                .from("apps")
+                .update({
+
+                  name:
+                    name,
+
+                  description:
+                    description,
+
+                  logo_url:
+                    logoUrl,
+
+                  referral_url:
+                    referralUrl,
+
+                  status:
+                    status,
+
+                  featured:
+                    featured
+
+                })
+                .eq(
+                  "id",
+                  editId
+                );
+
+
+            if (error) {
+              throw error;
+            }
+
+
+            showMessage(
+              appMessage,
+              "App updated successfully! ✅"
+            );
+
+          }
+
+
+          /*
+             INSERT
+          */
+
+          else {
+
+            const {
+              error
+            } =
+              await supabaseClient
+                .from("apps")
+                .insert({
+
+                  name:
+                    name,
+
+                  description:
+                    description,
+
+                  logo_url:
+                    logoUrl,
+
+                  referral_url:
+                    referralUrl,
+
+                  status:
+                    status,
+
+                  featured:
+                    featured
+
+                });
+
+
+            if (error) {
+              throw error;
+            }
+
+
+            showMessage(
+              appMessage,
+              "App added successfully! ✅"
+            );
+
+          }
+
+
+          resetForm();
+
+          loadApps();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          showMessage(
+            appMessage,
             error.message
           );
 
-          return;
         }
 
 
-        showStatus(
-          appStatusMessage,
-          "App added successfully! ✅"
+        saveButton.disabled =
+          false;
+
+      }
+    );
+
+
+    /*
+       EDIT APP
+    */
+
+    function editApp(app) {
+
+      document
+        .getElementById("edit-id")
+        .value =
+        app.id;
+
+
+      document
+        .getElementById("app-name")
+        .value =
+        app.name || "";
+
+
+      document
+        .getElementById("app-description")
+        .value =
+        app.description || "";
+
+
+      document
+        .getElementById("app-referral")
+        .value =
+        app.referral_url || "";
+
+
+      document
+        .getElementById("app-status")
+        .value =
+        app.status || "active";
+
+
+      document
+        .getElementById("app-featured")
+        .value =
+        app.featured
+          ? "true"
+          : "false";
+
+
+      document
+        .getElementById("form-title")
+        .textContent =
+        "Edit App";
+
+
+      saveButton.textContent =
+        "Update App";
+
+
+      document
+        .getElementById("cancel-edit-btn")
+        .classList
+        .remove("hidden");
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /*
+       DELETE APP
+    */
+
+    async function deleteApp(id) {
+
+      const confirmed =
+        confirm(
+          "Are you sure you want to delete this app?"
         );
 
 
-        document
-          .getElementById("app-name")
-          .value = "";
+      if (!confirmed) {
+        return;
+      }
 
-        document
-          .getElementById("app-description")
-          .value = "";
 
-        document
-          .getElementById("app-logo")
-          .value = "";
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("apps")
+          .delete()
+          .eq(
+            "id",
+            id
+          );
 
-        document
-          .getElementById("app-referral")
-          .value = "";
 
-      });
+      if (error) {
+
+        alert(
+          error.message
+        );
+
+        return;
+
+      }
+
+
+      loadApps();
+
+    }
+
+
+    /*
+       RESET FORM
+    */
+
+    function resetForm() {
+
+      document
+        .getElementById("edit-id")
+        .value =
+        "";
+
+
+      document
+        .getElementById("app-name")
+        .value =
+        "";
+
+
+      document
+        .getElementById("app-description")
+        .value =
+        "";
+
+
+      document
+        .getElementById("app-referral")
+        .value =
+        "";
+
+
+      document
+        .getElementById("app-status")
+        .value =
+        "active";
+
+
+      document
+        .getElementById("app-featured")
+        .value =
+        "false";
+
+
+      logoInput.value =
+        "";
+
+
+      logoPreview.style.display =
+        "none";
+
+
+      document
+        .getElementById("form-title")
+        .textContent =
+        "Add New App";
+
+
+      saveButton.textContent =
+        "Add App";
+
+
+      document
+        .getElementById("cancel-edit-btn")
+        .classList
+        .add("hidden");
+
+    }
+
+
+    /*
+       CANCEL EDIT
+    */
+
+    document
+      .getElementById("cancel-edit-btn")
+      .addEventListener(
+        "click",
+        function () {
+
+          resetForm();
+
+        }
+      );
 
 
     /*
@@ -435,41 +1292,33 @@
 
     document
       .getElementById("logout-btn")
-      .addEventListener("click", async function () {
+      .addEventListener(
+        "click",
+        async function () {
 
-        await supabaseClient.auth.signOut();
+          await supabaseClient
+            .auth
+            .signOut();
 
-        adminSection.classList.add("hidden");
 
-        loginSection.classList.remove("hidden");
+          adminSection
+            .classList
+            .add("hidden");
 
-      });
+
+          loginSection
+            .classList
+            .remove("hidden");
+
+        }
+      );
 
 
     /*
-       CHECK EXISTING LOGIN
+       CHECK SESSION
     */
 
     async function checkLogin() {
 
-      const { data } =
-        await supabaseClient.auth.getSession();
-
-
-      if (data.session) {
-
-        loginSection.classList.add("hidden");
-
-        adminSection.classList.remove("hidden");
-
-      }
-
-    }
-
-
-    checkLogin();
-
-  </script>
-
-</body>
-</html>
+      const {
+        d
