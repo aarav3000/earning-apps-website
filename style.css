@@ -1357,3 +1357,25 @@ footer {
 .app-card .details {
   color: #cbd5e1 !important;
 }
+
+/* ===== PREMIUM BLUE-GRAY APP CARDS ===== */
+
+.app-card {
+  background: linear-gradient(
+    135deg,
+    #26365f,
+    #1f2d50
+  ) !important;
+
+  border: 1px solid rgba(148, 163, 210, 0.30) !important;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22) !important;
+}
+
+.app-card .app-name {
+  color: #ffffff !important;
+}
+
+.app-card .details {
+  color: #c9d3ea !important;
+}
