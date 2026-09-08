@@ -1601,3 +1601,31 @@ footer {
     font-size: 29px !important;
   }
 }
+
+/* HOW IT WORKS - SAME PREMIUM GRADIENT AS EXPLORE APPS */
+
+.secondary-button {
+  background: linear-gradient(
+    135deg,
+    #7657ff 0%,
+    #8d52ff 50%,
+    #4f7cff 100%
+  ) !important;
+
+  color: #ffffff !important;
+  border: none !important;
+
+  box-shadow:
+    0 12px 30px rgba(117, 87, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+
+  transition: all 0.25s ease !important;
+}
+
+.secondary-button:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+
+  box-shadow:
+    0 16px 35px rgba(117, 87, 255, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+}
