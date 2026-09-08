@@ -446,46 +446,25 @@ function displayFeaturedApps(list) {
 */
 
 if (searchInput) {
+  searchInput.addEventListener("input", function () {
+    const query = this.value.trim().toLowerCase();
 
-  searchInput.addEventListener(
-    "input",
-    function () {
+    const filteredApps = apps.filter(app => {
+      const appName = String(app.name || "").toLowerCase();
 
-      const query =
-        this.value
-          .trim()
-          .toLowerCase();
+      const details = Array.isArray(app.details)
+        ? app.details.join(" ").toLowerCase()
+        : String(app.details || "").toLowerCase();
 
+      return (
+        query === "" ||
+        appName.includes(query) ||
+        details.includes(query)
+      );
+    });
 
-      const filteredApps =
-        apps.filter(app => {
-
-          const appName =
-            app.name
-              .toLowerCase();
-
-
-          const details =
-            Array.isArray(app.details)
-              ? app.details
-                  .join(" ")
-                  .toLowerCase()
-              : "";
-
-
-          return (
-            appName.includes(query) ||
-            details.includes(query)
-          );
-
-        });
-
-
-      displayApps(filteredApps);
-
-    }
-  );
-
+    displayApps(filteredApps);
+  });
 }
 
 
