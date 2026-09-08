@@ -1379,3 +1379,26 @@ footer {
 .app-card .details {
   color: #c9d3ea !important;
 }
+
+/* ===== PREMIUM CUSTOMER SUPPORT BUTTON ===== */
+
+.support-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+.support-button img {
+  width: 30px !important;
+  height: 30px !important;
+  object-fit: contain !important;
+  border-radius: 50% !important;
+
+  /* Image ka white background button ke saath blend karega */
+  mix-blend-mode: multiply !important;
+}
+
+.support-button span {
+  font: inherit !important;
+}
