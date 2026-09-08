@@ -1402,3 +1402,202 @@ footer {
 .support-button span {
   font: inherit !important;
 }
+
+/* =================================
+   EARNHUB PREMIUM HOME UPDATE
+   ================================= */
+
+/* HERO */
+.hero {
+  padding-top: 58px !important;
+  padding-bottom: 82px !important;
+}
+
+.hero h1 {
+  text-shadow: 0 8px 35px rgba(0, 0, 0, 0.18);
+}
+
+.hero p {
+  max-width: 680px !important;
+  color: #aebbd2 !important;
+  line-height: 1.75 !important;
+}
+
+/* EXPLORE APPS - PREMIUM */
+.primary-button {
+  min-height: 54px !important;
+  padding: 0 28px !important;
+  border-radius: 16px !important;
+
+  background: linear-gradient(
+    135deg,
+    #7657ff,
+    #9b5cff,
+    #4f7cff
+  ) !important;
+
+  box-shadow:
+    0 12px 30px rgba(117, 87, 255, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.25) !important;
+
+  font-size: 16px !important;
+}
+
+.primary-button:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+}
+
+/* HOW IT WORKS - PREMIUM SECONDARY */
+.secondary-button {
+  min-height: 54px !important;
+  padding: 0 26px !important;
+  border-radius: 16px !important;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.035)
+  ) !important;
+
+  border: 1px solid rgba(150,170,220,0.28) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 8px 25px rgba(0,0,0,0.12) !important;
+
+  font-size: 16px !important;
+}
+
+.secondary-button:hover {
+  border-color: rgba(165,140,255,0.55) !important;
+  background: rgba(121,87,255,0.12) !important;
+}
+
+/* FEATURED APPS HEADING */
+.app-heading {
+  position: relative;
+  padding: 22px 22px 20px !important;
+  margin-bottom: 18px !important;
+
+  border-radius: 20px !important;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.055),
+    rgba(255,255,255,0.018)
+  ) !important;
+
+  border: 1px solid rgba(150,170,220,0.16) !important;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.06) !important;
+
+  backdrop-filter: blur(14px);
+}
+
+.app-heading > div:first-child > span {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+
+  padding: 5px 10px !important;
+
+  border-radius: 999px !important;
+
+  color: #9fc8ff !important;
+  background: rgba(79,124,255,0.10) !important;
+  border: 1px solid rgba(79,124,255,0.18) !important;
+
+  font-size: 10px !important;
+  letter-spacing: 0.16em !important;
+}
+
+.app-heading h2 {
+  margin-top: 8px !important;
+
+  font-size: 34px !important;
+  font-weight: 900 !important;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #c8d4ff,
+    #a58cff
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* APP COUNT */
+.app-count {
+  padding: 8px 12px !important;
+
+  border-radius: 999px !important;
+
+  color: #c9d5ed !important;
+  background: rgba(255,255,255,0.055) !important;
+
+  border: 1px solid rgba(150,170,220,0.18) !important;
+
+  font-weight: 750 !important;
+}
+
+/* SEARCH BOX */
+.search-box {
+  min-height: 58px !important;
+
+  border-radius: 17px !important;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.065),
+    rgba(255,255,255,0.025)
+  ) !important;
+
+  border: 1px solid rgba(150,170,220,0.18) !important;
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.05) !important;
+
+  backdrop-filter: blur(16px) !important;
+}
+
+.search-box:focus-within {
+  border-color: rgba(121,87,255,0.55) !important;
+
+  box-shadow:
+    0 0 0 3px rgba(121,87,255,0.10),
+    0 12px 30px rgba(0,0,0,0.15) !important;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  .hero {
+    padding-top: 38px !important;
+    padding-bottom: 62px !important;
+  }
+
+  .hero-buttons {
+    gap: 10px !important;
+  }
+
+  .primary-button,
+  .secondary-button {
+    min-height: 52px !important;
+    padding: 0 19px !important;
+    font-size: 14px !important;
+  }
+
+  .app-heading {
+    padding: 18px !important;
+  }
+
+  .app-heading h2 {
+    font-size: 29px !important;
+  }
+}
