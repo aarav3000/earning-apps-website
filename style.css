@@ -1629,3 +1629,18 @@ footer {
     0 16px 35px rgba(117, 87, 255, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
 }
+
+/* HERO BUTTONS SPACING */
+
+.hero-buttons {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 22px !important;
+}
+
+@media (max-width: 600px) {
+  .hero-buttons {
+    gap: 16px !important;
+  }
+}
